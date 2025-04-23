@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Page AI - Login</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts (Open Sans for text) -->
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+
+  <!-- MontserratAlt1 (Custom font for title) -->
+  <style>
+    @font-face {
+      font-family: 'MontserratAlt1';
+      src: url('fonts/MontserratAlt1-SemiBold.otf') format('opentype');
+    }
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background-color: #f7f9fc; /* Your extension light background */
+    }
+    .title-font {
+      font-family: 'MontserratAlt1', sans-serif;
+    }
+  </style>
+</head>
+
+<body class="flex items-center justify-center min-h-screen px-4">
+
+  <div class="max-w-md w-full bg-white rounded-xl shadow-md p-8 space-y-8">
+    <!-- App Title -->
+    <h1 class="text-3xl text-center font-bold text-[#36454F] title-font">SMART PAGE AI</h1>
+
+    <!-- Welcome Text -->
+    <div class="text-center space-y-2">
+      <h2 class="text-xl font-semibold text-[#36454F]">Welcome</h2>
+      <p class="text-gray-600 text-sm">Login or Sign Up to Continue</p>
+    </div>
+
+    <!-- Login Buttons -->
+    <div class="space-y-4 mt-6">
+      <button id="googleLogin" class="w-full flex items-center justify-center gap-3 py-3 px-6 rounded-md border border-gray-300 bg-white hover:bg-gray-100 text-gray-700 text-sm font-medium transition">
+        <img src="https://www.svgrepo.com/show/355037/google.svg" class="h-5 w-5" alt="Google Logo">
+        Continue with Google
+      </button>
+      <button id="appleLogin" class="w-full flex items-center justify-center gap-3 py-3 px-6 rounded-md border border-gray-300 bg-white hover:bg-gray-100 text-gray-700 text-sm font-medium transition">
+        <img src="https://www.svgrepo.com/show/303145/apple-logo.svg" class="h-5 w-5" alt="Apple Logo">
+        Continue with Apple
+      </button>
+      <button id="facebookLogin" class="w-full flex items-center justify-center gap-3 py-3 px-6 rounded-md border border-gray-300 bg-white hover:bg-gray-100 text-gray-700 text-sm font-medium transition">
+        <img src="https://www.svgrepo.com/show/475689/facebook-color.svg" class="h-5 w-5" alt="Facebook Logo">
+        Continue with Facebook
+      </button>
+    </div>
+
+    <!-- Terms and Privacy -->
+    <p class="text-xs text-center text-gray-400 mt-6">
+      By signing up, you agree to our <a href="#" class="underline">Terms of Service</a> and <a href="#" class="underline">Privacy Policy</a>.
+    </p>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+
+  <script>
+    // Your Firebase configuration (replace with your actual config!)
+    const firebaseConfig = {
+      apiKey: "AIzaSyDZhfxL3oPaSWY2ej0EMnstuezJKpByUu0",
+      authDomain: "panley-bde76.firebaseapp.com",
+      projectId: "panley-bde76",
+      storageBucket: "panley-bde76.firebasestorage.app",
+      messagingSenderId: "1056699882247",
+      appId: "1:1056699882247:web:16f15c69854579ae4143a2"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    // Google Login
+    const googleLoginButton = document.getElementById('googleLogin');
+    googleLoginButton.addEventListener('click', async () => {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      try {
+        const result = await auth.signInWithPopup(provider);
+        handleLoginSuccess(result);
+      } catch (error) {
+        console.error(error.message);
+        alert('Google login failed.');
+      }
+    });
+
+    // Apple Login
+    const appleLoginButton = document.getElementById('appleLogin');
+    appleLoginButton.addEventListener('click', async () => {
+      const provider = new firebase.auth.OAuthProvider('apple.com');
+      try {
+        const result = await auth.signInWithPopup(provider);
+        handleLoginSuccess(result);
+      } catch (error) {
+        console.error(error.message);
+        alert('Apple login failed.');
+      }
+    });
+
+    // Facebook Login
+    const facebookLoginButton = document.getElementById('facebookLogin');
+    facebookLoginButton.addEventListener('click', async () => {
+      const provider = new firebase.auth.FacebookAuthProvider();
+      try {
+        const result = await auth.signInWithPopup(provider);
+        handleLoginSuccess(result);
+      } catch (error) {
+        console.error(error.message);
+        alert('Facebook login failed.');
+      }
+    });
+
+    // After Successful Login
+    function handleLoginSuccess(result) {
+      console.log('User Info:', result.user);
+      alert('Login Successful! Welcome, ' + result.user.displayName);
+
+      // OPTIONAL: Save token here if needed
+      result.user.getIdToken().then((token) => {
+        console.log('User Token:', token);
+
+        // Close the login tab after 2 seconds
+        setTimeout(() => {
+          window.close();
+        }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>
