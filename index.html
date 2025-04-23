@@ -89,18 +89,6 @@
       }
     });
 
-    // Apple Login
-    const appleLoginButton = document.getElementById('appleLogin');
-    appleLoginButton.addEventListener('click', async () => {
-      const provider = new firebase.auth.OAuthProvider('apple.com');
-      try {
-        const result = await auth.signInWithPopup(provider);
-        handleLoginSuccess(result);
-      } catch (error) {
-        console.error(error.message);
-        alert('Apple login failed.');
-      }
-    });
 
     // Facebook Login
     const facebookLoginButton = document.getElementById('facebookLogin');
