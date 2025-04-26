@@ -97,6 +97,19 @@
       }
     });
 
+    // Microsoft Login
+    const microsoftLoginButton = document.getElementById('microsoftLogin');
+    microsoftLoginButton.addEventListener('click', async () => {
+      const provider = new firebase.auth.OAuthProvider('microsoft.com');
+      try {
+        const result = await auth.signInWithPopup(provider);
+        handleLoginSuccess(result);
+      } catch (error) {
+        console.error(error.message);
+        alert('Microsoft login failed.');
+      }
+    });
+
 
     // Facebook Login
     const facebookLoginButton = document.getElementById('facebookLogin');
